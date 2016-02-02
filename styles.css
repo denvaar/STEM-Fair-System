@@ -1,0 +1,100 @@
+<style type="text/css">
+.score-form-1{
+    /*top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;*/
+    font: 100% Helvetica, Arial, sans-serif;
+    /*margin: auto;*/
+    background: #F7F7F7;
+}
+form {
+    width: 200px;
+    height: 300px;
+    margin: 0 auto;
+}
+.header {
+    /*background: #333333;*/
+    background: white;
+    padding: 1%;
+    font-weight: 700;
+    text-align: center;
+    color: #666666;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+.header img {
+    width: 200px;
+    height: auto;
+}
+.header h1 {
+    font: bolder 30px/1.5 Helvetica, Arial, sans-serif;
+}
+.header h2 {
+    font: bolder 20px/1.5 Helvetica, Arial, sans-serif;
+}
+.score-form-1 input[type="text"],
+.score-form-1 input[type="date"],
+.score-form-1 input[type="datetime"],
+.score-form-1 input[type="email"],
+.score-form-1 input[type="number"],
+.score-form-1 input[type="search"],
+.score-form-1 input[type="time"],
+.score-form-1 input[type="url"],
+.score-form-1 textarea,
+.score-form-1 select
+{
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 200px;
+    background: #fff;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    color: #555;
+    font: 95% Arial, Helvetica, sans-serif;
+}
+.score-form-1 input[type="text"]:focus,
+.score-form-1 input[type="date"]:focus,
+.score-form-1 input[type="datetime"]:focus,
+.score-form-1 input[type="email"]:focus,
+.score-form-1 input[type="number"]:focus,
+.score-form-1 input[type="search"]:focus,
+.score-form-1 input[type="time"]:focus,
+.score-form-1 input[type="url"]:focus,
+.score-form-1 textarea:focus,
+.score-form-1 select:focus
+{
+    box-shadow: 0 0 5px #3178ce;
+    padding: 12px;
+    border: 1px solid #3178ce;
+}
+
+.score-form-1 input[type="submit"],
+.score-form-1 input[type="button"]{
+    /*font: 130% Arial, Helvetica, sans-serif;*/
+    font: bolder 20px/1.5 Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 200px;
+    padding: 15px;
+    background: #3178ce;
+    /*border-bottom: 2px solid #248f5c;*/
+    border-bottom-style: none;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;   
+    color: #d6e4f5;
+}
+.score-form-1 input[type="submit"]:hover,
+.score-form-1 input[type="button"]:hover{
+    background: #5a93d8;
+}
+</style>
