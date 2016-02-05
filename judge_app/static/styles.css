@@ -4,7 +4,7 @@
 }
 form {
     width: 200px;
-    height: 300px;
+    height: 275px;
     margin: 0 auto;
 }
 .header {
@@ -90,10 +90,32 @@ form {
 .score-form-1 input[type="submit"]:hover,
 .score-form-1 input[type="button"]:hover{
     border: #5a93d8;
-    box-shadow: 0 0 2px #ffffff inset;
+    box-shadow: 0 0 5px #ffffff inset;
 }
 .score-form-1 input[type="submit"]:active,
 .score-form-1 input[type="button"]:active{
     background: #5a93d8;
 }
 
+.messages {
+    padding: 5px;
+    border: 1px solid;
+    font: bolder 12px Helvetica, Arial, sans-serif;
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.success {
+    background-color: #DFF2BF;
+    color: #4F8A10;
+}
+.error {
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+.menu a {
+    color: #1071e7;
+    font: bolder 16px/1.5 Helvetica, Arial, sans-serif;
+}
