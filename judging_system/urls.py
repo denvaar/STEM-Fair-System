@@ -16,6 +16,9 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from judge_app.views import ScoreSubmissionView
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^score-submit/', ScoreSubmissionView.as_view(), name="score-submit"),
 ]

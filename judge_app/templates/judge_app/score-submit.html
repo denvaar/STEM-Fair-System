@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}"/>
+  </head>
+<body>
+  {% load filters %}
+  <div class="header">
+    <img src="{% static 'logo.png' %}"/>
+    <h2>Score Submission Form</h2>
+  </div>
+  <br>
+  <div class="score-form-1">
+    <form action="/score-submit/" method="post">
+      {% csrf_token %}
+      {% if form.judge_id.errors %}
+        {{ form.judge_id|css:"errors" }}
+      {% else %}
+        {{ form.judge_id }}
+      {% endif %}
+      {% if form.award_id.errors %}
+        {{ form.award_id|css:"errors" }}
+      {% else %}
+        {{ form.award_id }}
+      {% endif %}
+      {% if form.project_id.errors %}
+        {{ form.project_id|css:"errors" }}
+      {% else %}
+        {{ form.project_id }}
+      {% endif %}
+      {% if form.score.errors %}
+        {{ form.score|css:"errors" }}
+      {% else %}
+        {{ form.score }}
+      {% endif %}
+      <input type="submit" value="Submit Score">
+    </form>
+  </div>
+</body>
+</html>
