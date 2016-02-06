@@ -20,15 +20,15 @@
       {% else %}
         {{ form.judge_id }}
       {% endif %}
-      {% if form.award_id.errors %}
-        {{ form.award_id|css:"errors" }}
-      {% else %}
-        {{ form.award_id }}
-      {% endif %}
       {% if form.project_id.errors %}
         {{ form.project_id|css:"errors" }}
       {% else %}
         {{ form.project_id }}
+      {% endif %}
+      {% if form.award_id.errors %}
+        {{ form.award_id|css:"errors" }}
+      {% else %}
+        {{ form.award_id }}
       {% endif %}
       {% if form.score.errors %}
         {{ form.score|css:"errors" }}

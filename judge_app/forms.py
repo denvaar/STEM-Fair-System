@@ -7,7 +7,7 @@ class ScoreForm(forms.Form):
     judge_id = forms.CharField(label=None, max_length=50,
         widget=forms.TextInput(attrs={'placeholder':'Judge ID'}))
     award_id = forms.CharField(label=None, max_length=50,
-        widget=forms.TextInput(attrs={'placeholder':'Award ID'}))
+        widget=forms.TextInput(attrs={'placeholder':'Award Code'}))
     project_id = forms.CharField(label=None, max_length=50,
         widget=forms.TextInput(attrs={'placeholder':'Project ID'}))
     score = forms.IntegerField(label=None, min_value=0, max_value=100,
