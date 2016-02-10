@@ -1,0 +1,8 @@
+
+{% extends "admin/base_site.html" %}
+
+
+{% block nav-global %}
+{{ block.super }}
+<a href="{% url 'index' %}">🏠 Home</a>
+{% endblock %}

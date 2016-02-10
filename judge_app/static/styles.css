@@ -55,8 +55,9 @@ form {
     border: 1px solid #ccc;
     padding: 10px;
     color: #555;
-    font: 95% Arial, Helvetica, sans-serif;
+    font: 95% Helvetica, Arial, sans-serif;
 }
+
 .score-form-1 input[type="text"]:focus,
 .score-form-1 input[type="date"]:focus,
 .score-form-1 input[type="datetime"]:focus,
@@ -71,6 +72,18 @@ form {
     box-shadow: 0 0 5px #3178ce;
     border: 1px solid #4f96ed !important;
 }
+.score-form-1 select {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: #fff url(select-arrow.png) no-repeat right center;
+  background-size: 10%;
+  background-origin: content-box;
+}
+
+
 
 .score-form-1 input[type="submit"],
 .score-form-1 input[type="button"]{

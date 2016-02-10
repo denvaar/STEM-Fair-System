@@ -40,11 +40,13 @@ class ProjectResource(resources.ModelResource):
         attribute='project_id')
     title = fields.Field(column_name="Project Title",
         attribute='title')
+    award_code = fields.Field(column_name="Award Code",
+        attribute='award_code')
     class Meta:
         model = Project
         skip_unchanged = True
         import_id_fields = ('project_id',)
-        fields = ('project_id','title')
+        fields = ('project_id','title', 'award_code')
 
 class StudentAdmin(ImportExportModelAdmin):
     resource_class = StudentResource
@@ -52,7 +54,7 @@ class StudentAdmin(ImportExportModelAdmin):
 
 class ProjectAdmin(ImportExportModelAdmin):
     resource_class = ProjectResource
-    pass
+    list_filter = ['award_code',]
 
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Project, ProjectAdmin)

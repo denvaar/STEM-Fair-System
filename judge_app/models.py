@@ -33,6 +33,7 @@ class Project(models.Model):
     project_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=250)
     score = models.IntegerField(default=0)
+    award_code = models.CharField(max_length=50)
 
     def __unicode__(self):
         return self.title
