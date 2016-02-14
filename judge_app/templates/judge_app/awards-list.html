@@ -1,0 +1,27 @@
+<h2>2016 BSEF Results</h2>
+<table style="width:100%; text-align:left;">
+  <tr>
+    <th>Award</th>
+    <th>Judging Status</th>
+    <th>Results</th>
+  </tr>
+  {% for award in awards %}
+  <tr>
+    <td>{{ award.0.title }}</td>
+    <td>{% if award.3 %}
+          Complete
+        {% else %}
+          In Progress
+        {% endif %}
+        ({{ award.2 }}/{{ award.1 }})
+    </td>
+    <td>
+      {% if award.3 %}
+        <a href="">View</a>
+      {% else %}
+        --
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>

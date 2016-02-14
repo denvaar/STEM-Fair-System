@@ -1,43 +1,62 @@
 from django import forms
 
-from .models import Project
+from .models import (
+    Project,
+    Award,
+    JudgingResult,
+)
 
-class MyModelChoiceField(forms.ModelChoiceField):
+
+class ProjectChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
         return obj.project_id
 
-class ScoreForm(forms.Form):
+
+class AwardChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.code
+
+class BaseModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('auto_id', '%s')
+        kwargs.setdefault('label_suffix', '')
+        super(BaseModelForm, self).__init__(*args, **kwargs)
+
+        for field_name in self.fields:
+            field = self.fields.get(field_name)
+            if field:
+                field.widget.attrs.update({
+                    'placeholder': field.help_text
+                })
+
+
+class ScoreForm(BaseModelForm):
     error_css_class = 'errors'
     required_css_class = 'errors'
 
-    judge_id = forms.CharField(label=None, max_length=50,
-        widget=forms.TextInput(attrs={'placeholder':'Judge ID'}))
-    award_code = forms.CharField(label=None, max_length=50,
-        widget=forms.TextInput(attrs={'placeholder':'Award Code'}))
-    #project_id = forms.CharField(label=None, max_length=50,
-    #    widget=forms.TextInput(attrs={'placeholder':'Project ID'}))
-    project_id = MyModelChoiceField(label=None,
-        queryset=Project.objects.all(),
-        to_field_name='project_id',
-        empty_label="Project ID")
-    score = forms.IntegerField(label=None, min_value=0, max_value=100,
-        widget=forms.NumberInput(attrs={'placeholder':'Score'}))
-
+    class Meta:
+        model = JudgingResult
+        fields = '__all__'
+   
     def __init__(self, *args, **kwargs):
         super(ScoreForm, self).__init__(*args, **kwargs)
-        #choices = [(x.pk, x.project_id) for x in Project.objects.all()]
-        #self.fields['project_id'].choices = choices
-        #self.fields['project_id'].choices.append(("Project ID", "Project ID"))
+        self.fields.get('project').empty_label = "Project ID"
+        self.fields.get('award').empty_label = "Award ID"
     
     def clean(self):
         cleaned_data = super(ScoreForm, self).clean()
         try:
-            selected = cleaned_data.get('project_id')
-            project = Project.objects.get(\
-                project_id=selected.project_id)
-            if project.award_code != cleaned_data.get('award_code'):
-                msg = "Project ID not associated with award code."
-                self.add_error("award_code",msg)
+            project = cleaned_data.get('project')
+            award = cleaned_data.get('award')
+            if award not in project.awards.all():
+                msg = "Project ID not associated with Award ID."
+                self.add_error("award", msg)
+            #projects = Project.objects.filter(\
+            #    awards__code=award.code)
+            #if not projects:
+            #    msg = "Project ID not associated with Award ID."
+            #    self.add_error("award", msg)
+                
         except (Project.DoesNotExist, ValueError, AttributeError):
             msg = "Project ID does not exist."
-            self.add_error("project_id", msg)
+            self.add_error("project", msg)
