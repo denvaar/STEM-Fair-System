@@ -1,23 +1,27 @@
-<h2>2016 BSEF Results</h2>
-<table style="width:100%; text-align:left;">
+{% extends "base.html" %}
+{% block body_block %}
+<div class="award">
+<span class="plain-text">
+  <h2>Judging Results</h2>
+</span>
+<table>
   <tr>
     <th>Award</th>
-    <th>Judging Status</th>
+    <th>Score Submissions</th>
     <th>Results</th>
   </tr>
   {% for award in awards %}
   <tr>
     <td>{{ award.0.title }}</td>
-    <td>{% if award.3 %}
-          Complete
-        {% else %}
-          In Progress
+    <td>
+        {{ award.2 }}/{{ award.1 }}
+        {% if award.3 %}
+          <i>Completed</i>
         {% endif %}
-        ({{ award.2 }}/{{ award.1 }})
     </td>
     <td>
       {% if award.3 %}
-        <a href="">View</a>
+        <a href="{% url 'result-detail' slug=award.0.slug %}">View</a>
       {% else %}
         --
       {% endif %}
@@ -25,3 +29,5 @@
   </tr>
   {% endfor %}
 </table>
+</div>
+{% endblock %}

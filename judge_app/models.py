@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+from autoslug import AutoSlugField
 
 class Student(models.Model):
     response_id = models.CharField(primary_key=True, max_length=100)
@@ -15,9 +16,10 @@ class Student(models.Model):
 
     def __unicode__(self):
         return self.first_name + " " + self.last_name
-
+    
 
 class Award(models.Model):
+    slug = AutoSlugField(populate_from='code', unique=True)
     code = models.CharField(primary_key=True, max_length=200)
     title = models.CharField(max_length=200)
     category = models.CharField(max_length=200)
@@ -26,15 +28,22 @@ class Award(models.Model):
     projects = models.ManyToManyField('Project',
         related_name='awards',
         blank=True)
+    winners = models.ManyToManyField('Project',
+        related_name='winners',
+        through='AwardWinner',
+        blank=True)
+    number_of_winners = models.IntegerField(default=3)
+    number_of_judges = models.IntegerField(default=3)
     
     def save(self):
         if not self.grade_range:
             try:
                 self.grade_range = self.code.split()[1]
-            except KeyError:
-                pass
-        if not self.title:
-            self.title = "{0} {1}".format(self.grade_range, self.category)
+                if not self.title:
+                    self.title = "{0} {1}".format(self.grade_range, self.category)
+            except (KeyError, IndexError):
+                self.title = self.category
+                self.category = "Specialty Award"
         super(Award, self).save()
 
     def __unicode__(self):
@@ -52,13 +61,19 @@ class JudgingResult(models.Model):
             self.score, self.award, self.project)
 
 
+class AwardWinner(models.Model):
+    award = models.ForeignKey('Award', on_delete=models.CASCADE)
+    project = models.ForeignKey('Project', on_delete=models.CASCADE)
+    final_score = models.DecimalField(max_digits=15,
+        decimal_places=7,
+        blank=True, null=True)
+    
+
 class Project(models.Model):
     project_id = models.CharField(primary_key=True, max_length=255)
     title = models.CharField(max_length=250)
-    # Related fields:
-    # judgingresult_set
-    # student_set 
 
     def __unicode__(self):
         return self.project_id
+
 

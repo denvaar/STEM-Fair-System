@@ -3,14 +3,18 @@ from itertools import groupby
 
 from django.shortcuts import render
 from django.contrib import messages
+from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import FormView, CreateView
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 
 from .forms import ScoreForm
 from .models import (
     Award,
+    Project,
     JudgingResult,
+    AwardWinner,
 )
 
 
@@ -26,7 +30,7 @@ class IndexView(TemplateView):
 class ScoreSubmissionView(CreateView):
     template_name = 'score-submit.html'
     form_class = ScoreForm
-    success_url = 'score-submit.html'
+    success_url = reverse_lazy('score-submit')
 
     def get_context_data(self, **kwargs):
         context = super(ScoreSubmissionView, self).get_context_data(**kwargs)
@@ -45,30 +49,42 @@ class ScoreSubmissionView(CreateView):
         return super(ScoreSubmissionView, self).form_invalid(form)
 
     def get_award_results(self, award_id):
+        award = Award.objects.get(code=award_id)
+        judges = award.number_of_judges
+
         total = Award.objects.filter(code=award_id,
-            projects__isnull=False).count() * 3
+            projects__isnull=False).count() * award.number_of_judges
+        
         results = JudgingResult.objects.filter(award=award_id)
-        print results.count(), "/", total
+        
         if results.count() < total:
+            # Not time to compute winners yet.
             return
         raw_scores = {}
         judge_scores = {}
         for r in results.all():
             try:
-                judge_scores[r.judge_id].append((r.project,r.score))
+                judge_scores[r.judge_id].append(\
+                    (r.project.project_id,r.score))
             except KeyError:
-                judge_scores[r.judge_id] = [(r.project,r.score)]
+                judge_scores[r.judge_id] = \
+                    [(r.project.project_id,r.score)]
             try:
-                raw_scores[r.project] = raw_scores[r.project] + r.score
+                raw_scores[r.project.project_id] = \
+                    raw_scores[r.project.project_id] + r.score
             except KeyError:
-                raw_scores[r.project] = r.score
-        raw_scores = dict([(k,v/300.0) for k,v in raw_scores.iteritems()])
+                raw_scores[r.project.project_id] = r.score
+        raw_scores = dict(\
+            [(k,v/(judges * 100.0))
+            for k,v in raw_scores.iteritems()]
+        )
         print raw_scores
         print judge_scores
         # sort each judge's scores for each project
         for j in judge_scores.items():
             for p in j[1]:
-                j[1].sort(key=operator.itemgetter(1), reverse=True)
+                j[1].sort(key=operator.itemgetter(1),
+                    reverse=True)
         print "\nsorted", judge_scores
         
         # rank the scores.
@@ -99,7 +115,33 @@ class ScoreSubmissionView(CreateView):
             final_scores[a] = b + raw_scores[a]
 
         print "final scores", final_scores
-        
+        award = Award.objects.get(code=award_id)
+        winners = sorted(
+            final_scores.items(),
+            key=operator.itemgetter(1)
+        )[:award.number_of_winners]
+        print winners
+        for i in range(0, len(winners[:award.number_of_winners])):
+            p = Project.objects.get(project_id=winners[i][0])
+            winner = AwardWinner(
+                project=p,
+                award=award,
+                final_score=round(winners[i][1], 5)
+            )
+            winner.save()
+
+class AwardsDetail(DetailView):
+    template_name = 'awards-detail.html'
+    model = Award
+    context_object_name = 'award'
+
+    def get_context_data(self, **kwargs):
+        context = super(AwardsDetail, self).get_context_data(**kwargs)
+        #context['winners'] = context['award'].winners.order_by('final_score')
+        context['winners'] = AwardWinner.objects.filter(\
+            award=context['award']).order_by('final_score')
+        return context
+
 class AwardsList(ListView):
     template_name = 'awards-list.html'
     model = Award

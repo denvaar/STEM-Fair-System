@@ -1,20 +1,22 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}"/>
-  </head>
-<body>
-  <div class="header">
-    <img src="{% static 'logo.png' %}"/>
-    <h2>2016 Bridgerland Science and Engineering Fair</h2>
-  <div class="menu">
-    <ul style="list-style-type:none">
-      <li><a href="{% url 'admin:index' %}">Setup and Administration</a></li>
-      <li><a href="{% url 'score-submit' %}">Score Submission Form</a></li>
-      <li><a href="{% url 'awards-list' %}">Results</a></li>
-    </ul>
-  </div>
-  </div>
-</body>
-</html>
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+  <div class="widgets">
+    <a class="block" href="{% url 'admin:index' %}">
+      <span class="hl-1"></span>
+      <img class="block-img" src="{% static 'book.png' %}"/>
+      <span class="block-title">Administration and Setup</span>
+    </a>
+    <a class="block" href="{% url 'score-submit' %}">
+      <span class="hl-2"></span>
+      <img class="block-img" src="{% static 'pencil.png' %}"/>
+      <span class="block-title">Score Submission Form</span>  
+    </a>
+    <a class="block" href="{% url 'awards-list' %}">
+      <span class="hl-3"></span>
+      <img class="block-img" src="{% static 'gavel.png' %}"/>
+      <span class="block-title">Results</span>  
+    </a>
+  <div>
+{% endblock %}

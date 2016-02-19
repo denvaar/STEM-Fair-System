@@ -6,6 +6,7 @@ from import_export import fields
 from import_export.widgets import (
     ForeignKeyWidget,
     ManyToManyWidget,
+    IntegerWidget,
 )
 from .models import (
     Student,
@@ -36,7 +37,7 @@ class StudentResource(resources.ModelResource):
     
     class Meta:
         model = Student
-        skip_unchanged = True
+        skip_unchanged = False
         import_id_fields = ('response_id',)
         #fields = ('response_id', 'Fname', 'project')
 
@@ -46,37 +47,50 @@ class ProjectResource(resources.ModelResource):
         attribute='project_id')
     title = fields.Field(column_name="Project Title",
         attribute='title')
-    awards = fields.Field(column_name="Category Code",
+    awards = fields.Field(column_name="All Award Codes",
         attribute='awards',
-        widget=ManyToManyWidget(Award))
+        widget=ManyToManyWidget(Award, field='code', separator=';'))
 
     class Meta:
         model = Project
-        skip_unchanged = True
+        skip_unchanged = False
         import_id_fields = ('project_id',)
         fields = ('project_id','title', 'awards',)
-
+    
 
 class AwardResource(resources.ModelResource):
     category = fields.Field(column_name="Category",
         attribute='category')
     code = fields.Field(column_name="Category Code",
         attribute='code')
+    number_of_winners = fields.Field(column_name="Number of Winners",
+        attribute='number_of_winners',
+        default=3,
+        widget=IntegerWidget())
+    number_of_judges = fields.Field(column_name="Number of Judges",
+        attribute='number_of_judges',
+        default=3,
+        widget=IntegerWidget())
      
     class Meta:
         model = Award
-        skip_unchanged = True
+        skip_unchanged = False
         import_id_fields = ('code',)
-        fields = ('code','category',)
+        fields = ('code','category','number_of_winners', 'number_of_judges',)
 
 
 class ProjectInline(admin.TabularInline):
-    model = Project
+    model = Award.projects.through
     extra = 1
 
 
 class StudentInline(admin.StackedInline):
     model = Student
+    extra = 1
+
+
+class WinnerInline(admin.TabularInline):
+    model = Award.winners.through
     extra = 1
 
 
@@ -92,15 +106,15 @@ class StudentAdmin(ImportExportModelAdmin):
 
 class ProjectAdmin(ImportExportModelAdmin):
     resource_class = ProjectResource
-    #list_filter = ['winners',]
-    inlines = (StudentInline, AwardInline)
+    #readonly_fields = ('final_score',)
+    inlines = (StudentInline, AwardInline, WinnerInline,)
 
 
 class AwardAdmin(ImportExportModelAdmin):
     resource_class = AwardResource
     model = Award
-    inlines = ()
-    readonly_fields = ('projects',)
+    inlines = (ProjectInline,)
+    readonly_fields = ('projects', 'winners',)
 
 
 class JudgeResultAdmin(admin.ModelAdmin):

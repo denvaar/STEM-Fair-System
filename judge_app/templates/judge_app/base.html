@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>{% block title_block %}BSEF 2016{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+  {% block head_block %}{% endblock %}
+</head>
+<body>
+  <div class="header">
+    {% load staticfiles %}
+    <img style="margin-right:10px;float:left;width:20px; height: auto;" src="{% static 'logo.gif' %}"/>
+    <span><a href="{% url 'index' %}">2016 Bridgerland Science and Engineering Fair</a></span>
+  </div>
+  {% block body_block %}{% endblock %}
+</body>
+
+</html>

@@ -51,12 +51,9 @@ class ScoreForm(BaseModelForm):
             if award not in project.awards.all():
                 msg = "Project ID not associated with Award ID."
                 self.add_error("award", msg)
-            #projects = Project.objects.filter(\
-            #    awards__code=award.code)
-            #if not projects:
-            #    msg = "Project ID not associated with Award ID."
-            #    self.add_error("award", msg)
                 
         except (Project.DoesNotExist, ValueError, AttributeError):
             msg = "Project ID does not exist."
             self.add_error("project", msg)
+            print dir(self)
+
