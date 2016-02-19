@@ -155,7 +155,7 @@ class AwardsList(ListView):
         statuses = []
         for award in awards:
             total = Award.objects.filter(code=award.code,
-                projects__isnull=False).count() * 3
+                projects__isnull=False).count() * award.number_of_judges
             count = JudgingResult.objects.filter(award=award.code).count()
             totals.append(total)
             counts.append(count)

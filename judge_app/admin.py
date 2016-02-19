@@ -12,6 +12,7 @@ from .models import (
     Student,
     Project,
     Award,
+    Judge,
     JudgingResult,
 )
 
@@ -124,5 +125,6 @@ class JudgeResultAdmin(admin.ModelAdmin):
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Award, AwardAdmin)
+admin.site.register(Judge)
 admin.site.register(JudgingResult, JudgeResultAdmin)
 

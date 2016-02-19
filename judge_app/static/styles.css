@@ -10,6 +10,7 @@ body {
 a {
     text-decoration: none;
     color: #ecf0f1;
+    outline: 0;
 }
 hr {
     width: 50%;
@@ -43,8 +44,8 @@ padding-right: 5%;
 .widgets {
     font-family: Ubuntu, sans-serif;
     font-size: 12px;
-    /*position: absolute;*/
-    top: 0;
+    position: absolute;
+    top: 30%;
     bottom: 0;
     left: 0;
     right: 0;
@@ -86,6 +87,7 @@ padding-right: 5%;
     text-align: center;
     width: 80%;
     transform: translateX(-50%);
+    font-size: 14px;
 }
 .block:nth-of-type(3n+1) {
     background: #2980b9;
@@ -308,5 +310,9 @@ form {
     .block {
         display: block;
         margin: 0 auto 10px;
+    }
+    .widgets {
+        top: 10%;
+        width: 150px;
     }
 }

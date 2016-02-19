@@ -52,14 +52,23 @@ class Award(models.Model):
 
 class JudgingResult(models.Model):
     project = models.ForeignKey('Project', on_delete=models.CASCADE)
-    award = models.ForeignKey('Award', on_delete=models.CASCADE)
-    judge_id = models.CharField(max_length=255, help_text="Judge ID")
+    award = models.ForeignKey('Award', on_delete=models.CASCADE,
+        help_text="The awards that this judge will be judging.")
+    #judge_id = models.CharField(max_length=255, help_text="Judge ID")
+    judge_id = models.ForeignKey('Judge', on_delete=models.CASCADE)
     score = models.IntegerField(help_text="Score")
 
     def __unicode__(self):
         return "Project: {2} Score: {0} Award: {1}".format(\
             self.score, self.award, self.project)
 
+class Judge(models.Model):
+    judge_id = models.CharField(max_length=255, primary_key=True)
+    awards = models.ManyToManyField('Award', blank=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
+
+    def __unicode__(self):
+        return "{0}".format(self.judge_id)
 
 class AwardWinner(models.Model):
     award = models.ForeignKey('Award', on_delete=models.CASCADE)
