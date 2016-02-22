@@ -117,8 +117,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_ROOT = os.path.join('judge_app', 'static')
-STATIC_URL = '/judge_app/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'judge_app/')
+STATIC_URL = '/static/'
 
 import dj_database_url
 
