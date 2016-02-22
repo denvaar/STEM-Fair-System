@@ -117,13 +117,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-#STATICFILES_DIRS = (
-#   os.path.join(SETTINGS_PATH, "judge_app/static"),
-#)
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
-
-#STATIC_ROOT = '/Users/denversmith/Documents/Programming/TechFair/judging_system/judge_app/static/'
 STATIC_ROOT = os.path.join('judge_app', 'static')
 STATIC_URL = '/static/'
 
