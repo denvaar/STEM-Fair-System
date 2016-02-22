@@ -41,6 +41,14 @@ padding-right: 5%;
     width: 100px;
     height: auto;
 }
+.green-txt {
+    font-weight: bold;
+    color:green;
+}
+.status-img {
+    width: 15px;
+    height: auto;
+}
 .widgets {
     font-family: Ubuntu, sans-serif;
     font-size: 12px;
@@ -61,6 +69,7 @@ padding-right: 5%;
     display: inline-block;
     position: relative;
     box-sizing: border-box;
+    box-shadow: 5px 10px 5px #292929;
 }
 [class*="hl-"] {
     float: left;
@@ -149,18 +158,20 @@ form {
 .award tr {background-color: #fff;}
 .detail tr { background-color: #ecf0f1; }
 .award th {
-    background-color: #c0392b;
+    background-color: #1d1d1d;
+    /*background-color: #c0392b;*/
     color: #ecf0f1;
 }
 .detail th {
-    background-color: #27ae60;
+    /*background-color: #27ae60;*/
+    background-color: #47986d;
     color: #ecf0f1;
 }
 .detail {
     display: inline-block;
     font-size: 12px;
     min-height: 300px;
-    border: 6px #27ae60 solid;
+    border: 6px #57b583 solid;
     border-radius: 5px;
     width: 370px;
     margin: 10px;
@@ -212,8 +223,11 @@ form {
 .score-form-1 textarea:focus,
 .score-form-1 select:focus
 {
-    box-shadow: 0 0 7px #ecf0f1;
-    border: 1px solid #ecf0f1 !important;
+    /*box-shadow: 0 0 10px #ecf0f1;
+    border: 2px solid #ecf0f1 !important;*/
+    box-shadow: 0 0 6px #f1c40f;
+    border: 1px solid #f1c40f !important;
+
 }
 .score-form-1 select {
   -webkit-box-sizing: border-box;
@@ -256,17 +270,62 @@ form {
     background: #3cd27b;
 }
 
-#messages {
-    /*
-    font-size: 11px;
-    padding: 5px;
-    border: 1px solid;
+.page-links {
+    font-size: 70px;
     
-    margin-left: auto;
-    margin-right: auto;
+}
+.right-arrow {
+    right: 3%;
+    position: fixed;
+    top: 50%;
+}
+.left-arrow {
+    left: 3%;
+    position: fixed;
+    top: 50%;
+}
+
+.presentation-container {
+    width: 70%;
+    margin: 0 auto;
+}
+.show-btn {
+    float: left;
+    padding: 10px;
+    position: absolute;
+    cursor: pointer;
+    font-size: 20px;
+}
+.hidden {
+    visibility:  hidden;
+}
+
+.options {
     text-align: center;
+}
+
+.presentation-award {
     margin-bottom: 10px;
-    */
+    color: black;
+    text-align: center;
+    background: #ecf0f1;
+    border: 6px #57b583 solid;
+    border-radius: 5px;
+}
+.presentation-award table {
+    width: 90%;
+}
+.presentation-award img {
+    width: 100px;
+    height: auto;
+}
+.presentation-award th {
+    background-color: #47986d;
+    color: #ecf0f1;
+}
+.presentation-award tr { background-color: #ecf0f1; }
+
+#messages {
     position: absolute;
     z-index: 101;
     top: 0;

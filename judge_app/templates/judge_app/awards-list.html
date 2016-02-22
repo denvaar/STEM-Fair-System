@@ -1,9 +1,16 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% load staticfiles %}
 <div class="award">
 <span class="plain-text">
   <h2>Judging Results</h2>
+  <div class="options">
+    <a href="{% url 'presentation-list' %}" style="font-weight: normal;"><i class="fa fa-file-o"></i> as presentation</a>
+    &nbsp;&nbsp;
+    <a href="{% url 'winners-pdf' %}?format=pdf" style="font-weight: normal;"><i class="fa fa-file-pdf-o"></i> as PDF</a>
+  </div>
 </span>
+<br>
 <table>
   <tr>
     <th>Award</th>
@@ -14,9 +21,11 @@
   <tr>
     <td>{{ award.0.title }}</td>
     <td>
-        {{ award.2 }}/{{ award.1 }}
-        {% if award.3 %}
-          <i>Completed</i>
+        {% if not award.3 %}
+          <span>{{ award.2 }}/{{ award.1 }}</span>
+        {% else %}
+          <span class="green-txt">{{ award.2 }}/{{ award.1 }}</span>
+          <img class="status-img" src="{% static 'Tick.png' %}"/>
         {% endif %}
     </td>
     <td>
@@ -29,5 +38,21 @@
   </tr>
   {% endfor %}
 </table>
+
+{% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

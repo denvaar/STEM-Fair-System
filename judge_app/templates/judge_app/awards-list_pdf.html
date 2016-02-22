@@ -1,0 +1,34 @@
+{% load staticfiles %}
+<div class="award">
+<span class="plain-text">
+  <h2>Judging Results</h2>
+</span>
+<br>
+<table>
+  <tr>
+    <th>Award</th>
+    <th>Score Submissions</th>
+    <th>Results</th>
+  </tr>
+  {% for award in awards %}
+  <tr>
+    <td>{{ award.0.title }}</td>
+    <td>
+        {% if not award.3 %}
+          <span>{{ award.2 }}/{{ award.1 }}</span>
+        {% else %}
+          <span class="green-txt">{{ award.2 }}/{{ award.1 }}</span>
+          <img class="status-img" src="{% static 'Tick.png' %}"/>
+        {% endif %}
+    </td>
+    <td>
+      {% if award.3 %}
+        <a href="{% url 'result-detail' slug=award.0.slug %}">View</a>
+      {% else %}
+        --
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+</div>

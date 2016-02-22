@@ -1,4 +1,5 @@
 import operator
+from collections import defaultdict
 from itertools import groupby
 
 from django.shortcuts import render
@@ -8,7 +9,9 @@ from django.views.generic.edit import FormView, CreateView
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from .mixins import PDFTemplateResponseMixin
 from .forms import ScoreForm
 from .models import (
     Award,
@@ -137,7 +140,16 @@ class AwardsDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(AwardsDetail, self).get_context_data(**kwargs)
-        #context['winners'] = context['award'].winners.order_by('final_score')
+        winners = AwardWinner.objects.filter(\
+            award=context['award']).order_by('final_score')
+        
+        # check for ties.
+        if Award.objects.get(code=context['award']).category != 'Specialty Award':
+            t=winners.values_list('final_score', flat=True).distinct()
+            ties = winners.filter(final_score=t).all()
+            if len(ties) > 1:
+                context['ties'] = ties
+
         context['winners'] = AwardWinner.objects.filter(\
             award=context['award']).order_by('final_score')
         return context
@@ -167,5 +179,32 @@ class AwardsList(ListView):
             statuses.append(status)
         context['awards'] = zip(awards, totals, counts, statuses)
         
+        return context
+    
+class PresentationList(ListView):
+    template_name = 'presentation-list.html'
+    context_object_name = 'awards'
+    paginate_by = 1
+    
+    def get_queryset(self):
+        queryset = Award.objects.exclude(awardwinner=None)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(PresentationList, self).get_context_data(**kwargs)
+        return context
+
+class WinnersPDFView(PDFTemplateResponseMixin, ListView):
+    template_name = 'presentation-list.html'
+    context_object_name = 'awards'
+    pdf_filename = 'results.pdf'
+    
+    def get_queryset(self):
+        queryset = Award.objects.exclude(awardwinner=None)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(WinnersPDFView, self).get_context_data(**kwargs)
+        # check for ties.
         return context
     

@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 {% block body_block %}
+{% load staticfiles %}
 <h1 style="text-align:center;">{{ award.title }}</h1>
 {% for winner in winners %}
   <span class="plain-text award detail">
-    {% load staticfiles %}
     <img style="width:70px; height: auto; " src="{% static 'prize.PNG' %}"/>
     <hr>
-    <h2 style="margin-bottom: 2px;"><span class="ord">{{ forloop.counter }}</span> Place</h2>
+    {% if winner in ties %}
+      <h2 style="margin-bottom: 2px;">Winner (Tie)</h2>
+    {% elif winner.award.category != 'Specialty Award' %}
+      <h2 style="margin-bottom: 2px;"><span class="ord">{{ forloop.counter }}</span> Place</h2>
+    {% else %}
+      <h2 style="margin-bottom: 2px;">Winner</h2>
+    {% endif %}
     <span style="color: grey;">{{award.title}}</span>
     <table>
       <tr>
@@ -16,7 +22,7 @@
       <tr>
       {% for student in winner.project.student_set.all %}
       <tr>
-        <td>{{ student }}</td>
+        <td><b>{{ student }}</b></td>
         <td>{% if forloop.first %}{{ student.school }}{% endif %}</td>
         <td>{% if forloop.first %}{{ winner.project.title }}{% endif %}</td>
       <tr>
