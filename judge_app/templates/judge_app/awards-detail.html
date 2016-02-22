@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block body_block %}
+{% load staticfiles %}
+<h1 style="text-align:center;">{{ award.title }}</h1>
+{% for winner in winners %}
+  <span class="plain-text award detail">
+    <img style="width:70px; height: auto; " src="{% static 'prize.PNG' %}"/>
+    <hr>
+    {% if winner in ties %}
+      <h2 style="margin-bottom: 2px;">Winner (Tie)</h2>
+    {% elif winner.award.category != 'Specialty Award' %}
+      <h2 style="margin-bottom: 2px;"><span class="ord">{{ forloop.counter }}</span> Place</h2>
+    {% else %}
+      <h2 style="margin-bottom: 2px;">Winner</h2>
+    {% endif %}
+    <span style="color: grey;">{{award.title}}</span>
+    <table>
+      <tr>
+        <th>Winners</th>
+        <th>School</th>
+        <th>Project</th>
+      <tr>
+      {% for student in winner.project.student_set.all %}
+      <tr>
+        <td><b>{{ student }}</b></td>
+        <td>{% if forloop.first %}{{ student.school }}{% endif %}</td>
+        <td>{% if forloop.first %}{{ winner.project.title }}{% endif %}</td>
+      <tr>
+      {% endfor %}
+    </table>
+  </span>
+{% endfor %}
+<script>
+    function getOrdinal(n) {
+        var s=["th","st","nd","rd"],
+        v=n%100;
+        return n+(s[(v-20)%10]||s[v]||s[0]);
+    }
+    var divs = document.getElementsByClassName('ord');
+    for (var i = 0; i < divs.length; i++) {
+        divs[i].innerHTML = getOrdinal(divs[i].innerHTML);
+    }
+</script>
+{% endblock %}

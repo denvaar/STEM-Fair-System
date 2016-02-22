@@ -1,0 +1,56 @@
+
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | BSEF Admin{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">BSEF Admin</a></h1>
+{% endblock %}
+
+{% block usertools %}
+<a href="{% url 'index' %}">🏠 BSEF Home</a>
+{{ block.super }}
+{% endblock %}
+
+{% block extrahead %}
+    <style type="text/css">
+        #header {
+            background-color: #222;
+            color: #999;
+        }
+        #branding h1 {
+            color: #999;
+        }
+        #branding h1 a:link {
+            color: #999;
+        }
+        #branding h1 a:visited {
+            color: #999;
+        }
+        .module h2, .module caption, .inline-group h2 {
+            background: #353535 none repeat scroll 0% 0%;
+        }
+        div.breadcrumbs {
+            background: #267DFF;
+        }
+        .button, input[type=submit], input[type=button], .submit-row input, a.button {
+            background: #197dff;
+        }
+        .button:hover, input[type=submit]:hover, input[type=button]:hover{
+            background: #74B1FF;
+        }
+        .button.default, input[type=submit].default, .submit-row input.default {
+            background: #197dff;
+        }
+        .button.default:hover, input[type=submit].default:hover {
+            background: #58a7ff;
+        }
+        a:link, a:visited {
+            color: #3266b4;
+        }
+        #user-tools a:focus, #user-tools a:hover {
+            color: #fff;
+            border-bottom-color: #79aec8;
+        }
+    </style>
+{% endblock %}

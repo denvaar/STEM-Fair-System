@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+  <div class="widgets">
+    <a class="block" href="{% url 'admin:index' %}">
+      <span class="hl-1"></span>
+      <i class="fa fa-cogs" style="font-size: 90px;padding-top: 10px;"></i>
+      <!--<img class="block-img" src="{% static 'book.png' %}"/>-->
+      <span class="block-title">Administration and Setup</span>
+    </a>
+    <a class="block" href="{% url 'score-submit' %}">
+      <span class="hl-2"></span>
+      <i class="fa fa-pencil" style="font-size: 90px;padding-top: 10px;"></i>
+      <!--<img class="block-img" src="{% static 'pencil.png' %}"/>-->
+      <span class="block-title">Score Submission Form</span>  
+    </a>
+    <a class="block" href="{% url 'awards-list' %}">
+      <span class="hl-3"></span>
+      <i class="fa fa-trophy" style="font-size: 90px;padding-top: 10px;"></i>
+      <!--<img class="block-img" src="{% static 'gavel.png' %}"/>-->
+      <span class="block-title">Results</span>  
+    </a>
+  <div>
+{% endblock %}

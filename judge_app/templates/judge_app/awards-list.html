@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block body_block %}
+{% load staticfiles %}
+<div class="award">
+  <span class="plain-text">
+    <h2>Judging Results</h2>
+    {% if awards %}
+      <div class="options">
+        <a href="{% url 'presentation-list' %}" style="font-weight: normal;"><i class="fa fa-file-o"></i> as presentation</a>
+        &nbsp;&nbsp;
+        <a href="{% url 'winners-pdf' %}?format=pdf" style="font-weight: normal;"><i class="fa fa-file-pdf-o"></i> as PDF</a>
+      </div>
+  </span>
+  <br>
+  <table>
+    <tr>
+      <th>Award</th>
+      <th>Score Submissions</th>
+      <th>Results</th>
+    </tr>
+    {% for award in awards %}
+    <tr>
+      <td>{{ award.0.title }}</td>
+      <td>
+          {% if not award.3 %}
+            <span>{{ award.2 }}/{{ award.1 }}</span>
+          {% else %}
+            <span class="green-txt">{{ award.2 }}/{{ award.1 }}</span>
+            <img class="status-img" src="{% static 'Tick.png' %}"/>
+          {% endif %}
+      </td>
+      <td>
+        {% if award.3 %}
+          <a href="{% url 'result-detail' slug=award.0.slug %}">View</a>
+        {% else %}
+          --
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    <p>No registered awards to display.</p>
+  {% endif %}
+</div>
+{% endblock %}

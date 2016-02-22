@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block body_block %}
+{% load staticfiles %}
+<div class="award">
+  {% for award in awards %}
+  <h1 style="text-align:center; font-size: 60px;">{{ award.title }}</h1>
+  <div class="presentation-container">
+    {% for winner in award.awardwinner_set.all %}
+      <div class="presentation-award">
+        <div class="show-btn" onclick="toggle_visibility('{{ winner.project }}', '{{winner.id}}');">
+          <i id="{{ winner.id }}" class="fa fa-eye"></i>
+        </div>
+        <img src="{% static 'prize.PNG' %}"/>
+        <hr>
+        
+        {% if winner in ties %}
+          <h2 style="margin-bottom: 2px;">Winner (Tie)</h2>
+        {% elif winner.award.category != 'Specialty Award' %}
+          <h2 style="margin-bottom: 2px;"><span class="ord">{{ forloop.counter }}</span> Place</h2>
+        {% else %}
+          <h2 style="margin-bottom: 2px;">Winner</h2>
+        {% endif %}
+        <!--<div id="{{ winner.project }}" class="hidden">-->
+        <table class="hidden" id="{{ winner.project }}">
+        <tr>
+          <th>Winners</th>
+          <th>School</th>
+          <th>Project</th>
+        </tr>
+        {% for student in winner.project.student_set.all %}
+        <tr>
+          <td><b>{{ student }}</b></td>
+          <td>{% if forloop.first %}{{ student.school }}{% endif %}</td>
+          <td>{% if forloop.first %}{{ winner.project.title }}{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      
+      </div>
+    {% endfor %}
+  </div><br><br><br>
+  {% endfor %}
+</div>
+
+{% if is_paginated %}
+  <div class="pagination">
+    <span class="page-links">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-arrow-circle-left left-arrow"></i></a>
+      {% endif %}
+        <span class="page-current">
+        <!--Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.-->
+      </span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}"><i class="fa fa-arrow-circle-right right-arrow"></i></a>
+      {% endif %}
+    </span>
+  </div>
+{% endif %}
+
+</div>
+<script>
+    function toggle_visibility(id, eye) {
+      var e = document.getElementById(id);
+      var i = document.getElementById(eye);
+      if(e.style.visibility == 'visible') {
+          e.style.visibility = 'hidden';
+          i.className = 'fa fa-eye';
+      }
+      else {
+          e.style.visibility = 'visible';
+          i.className = 'fa fa-eye-slash';
+      }
+    }
+
+    function getOrdinal(n) {
+        var s=["th","st","nd","rd"],
+        v=n%100;
+        return n+(s[(v-20)%10]||s[v]||s[0]);
+    }
+    var divs = document.getElementsByClassName('ord');
+    for (var i = 0; i < divs.length; i++) {
+        divs[i].innerHTML = getOrdinal(divs[i].innerHTML);
+    }
+</script>
+{% endblock %}

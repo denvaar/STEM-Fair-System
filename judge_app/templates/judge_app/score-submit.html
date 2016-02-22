@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block head_block %}
+{% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+{% endblock %}
+{% block body_block %}  
+  {% load filters %}
+  <br><br>
+  <div class="form-walls">
+  <span class="plain-text">
+    <h2>Score Submission Form</h2>
+    <p>Fill out each field with the information from the judging packets.</p>
+    <p>Final scores will be automatically computed once all scores for a given award category are submitted.</p>
+  </span>
+  <br>
+  <div class="score-form-1">
+    <form id="target" action="/score-submit/" method="post">
+      {% csrf_token %}
+      {% if form.judge_id.errors %}
+        {{ form.judge_id|css:"errors" }}
+      {% else %}
+        {{ form.judge_id }}
+      {% endif %}
+      {% if form.award.errors %}
+        {{ form.award|css:"errors" }}
+      {% else %}
+        {{ form.award }}
+      {% endif %}
+      {% if form.project.errors %}
+        {{ form.project|css:"errors" }}
+      {% else %}
+        {{ form.project }}
+      {% endif %}
+      {% if form.score.errors %}
+        {{ form.score|css:"errors" }}
+      {% else %}
+        {{ form.score }}
+      {% endif %}
+      <input type="submit" value="Submit Score">
+    </form>
+    {% if messages %}
+      {% for message in messages %}
+        <div id="messages" class="{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    {% for field in form.visible_fields %}
+      {% if field.errors %}
+        {% for error in field.errors %}
+          {% if error != "This field is required." %}
+            <div id="messages" class="error">{{ error }}</div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </div>
+  </div>
+    <script>
+    $(document).ready(function() {
+        // messages timeout for 10 sec 
+        setTimeout(function() {
+            $('#messages').fadeOut('slow');
+        }, 2400);
+    });
+    </script>
+    {% endblock %}
