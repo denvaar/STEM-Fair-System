@@ -3,7 +3,7 @@ dj-database-url==0.4.0
 Django==1.9.1
 django-autoslug==1.9.3
 tablib==0.11.2
-git+git//github.com/django-import-export/django-import-export.git
+git+git://github.com/django-import-export/django-import-export.git
 gunicorn==19.4.5
 html5lib==0.9999999
 Pillow==3.1.1
