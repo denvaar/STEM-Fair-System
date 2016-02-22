@@ -2,7 +2,7 @@ diff-match-patch==20121119
 dj-database-url==0.4.0
 Django==1.9.1
 django-autoslug==1.9.3
--e ./django-import-export
+./django-import-export
 gunicorn==19.4.5
 html5lib==0.9999999
 Pillow==3.1.1
