@@ -193,6 +193,9 @@ class PresentationList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(PresentationList, self).get_context_data(**kwargs)
+        print context['awards']
+        a = context['awards'][0].awardwinner_set.order_by('final_score')
+        print a
         return context
 
 class WinnersPDFView(PDFTemplateResponseMixin, ListView):
