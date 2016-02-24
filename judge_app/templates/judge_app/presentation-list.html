@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% block body_block %}
 {% load staticfiles %}
+{% load filters %}
 <div class="award">
   {% for award in awards %}
   <h1 style="text-align:center; font-size: 60px;">{{ award.title }}</h1>
   <div class="presentation-container">
-    {% for winner in award.awardwinner_set.all %}
+    {% for winner in award.awardwinner_set.all|sort_by:'final_score' %}
       <div class="presentation-award">
         <div class="show-btn" onclick="toggle_visibility('{{ winner.project }}', '{{winner.id}}');">
           <i id="{{ winner.id }}" class="fa fa-eye"></i>
