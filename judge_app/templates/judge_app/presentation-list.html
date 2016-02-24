@@ -13,15 +13,12 @@
         </div>
         <img src="{% static 'prize.png' %}"/>
         <hr>
-        
-        {% if winner in ties %}
-          <h2 style="margin-bottom: 2px;">Winner (Tie)</h2>
-        {% elif winner.award.category != 'Specialty Award' %}
+        {% if winner.award.category != 'Specialty Award' %}
           <h2 style="margin-bottom: 2px;"><span class="ord">{{ forloop.counter }}</span> Place</h2>
         {% else %}
           <h2 style="margin-bottom: 2px;">Winner</h2>
         {% endif %}
-        <!--<div id="{{ winner.project }}" class="hidden">-->
+        <span>SCORE: {{ winner.final_score }}</span>
         <table class="hidden" id="{{ winner.project }}">
         <tr>
           <th>Winners</th>

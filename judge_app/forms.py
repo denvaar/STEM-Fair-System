@@ -45,6 +45,7 @@ class ScoreForm(BaseModelForm):
     def __init__(self, *args, **kwargs):
         super(ScoreForm, self).__init__(*args, **kwargs)
         self.fields['judge_id'].widget.attrs['autofocus'] = u'autofocus'
+        self.fields['project'].queryset = Project.objects.order_by('project_id')
         self.fields.get('project').empty_label = "Project ID"
         self.fields.get('award').empty_label = "Category Code"
          

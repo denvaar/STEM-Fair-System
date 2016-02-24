@@ -142,14 +142,6 @@ class AwardsDetail(DetailView):
         context = super(AwardsDetail, self).get_context_data(**kwargs)
         winners = AwardWinner.objects.filter(\
             award=context['award']).order_by('final_score')
-        
-        # check for ties.
-        #if Award.objects.get(code=context['award']).category != 'Specialty Award':
-        #    t=winners.values_list('final_score', flat=True).distinct()
-        #    ties = winners.filter(final_score=t).all()
-        #    if len(ties) > 1:
-        #        context['ties'] = ties
-        context['ties'] = ""
 
         context['winners'] = AwardWinner.objects.filter(\
             award=context['award']).order_by('final_score')

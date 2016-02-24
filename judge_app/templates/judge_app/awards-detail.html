@@ -6,9 +6,7 @@
   <span class="plain-text award detail">
     <img style="width:70px; height: auto; " src="{% static 'prize.png' %}"/>
     <hr>
-    {% if winner in ties %}
-      <h2 style="margin-bottom: 2px;">Winner (Tie)</h2>
-    {% elif winner.award.category != 'Specialty Award' %}
+    {% if winner.award.category != 'Specialty Award' %}
       <h2 style="margin-bottom: 2px;"><span class="ord">{{ forloop.counter }}</span> Place</h2>
     {% else %}
       <h2 style="margin-bottom: 2px;">Winner</h2>
