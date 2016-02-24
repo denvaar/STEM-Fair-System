@@ -193,9 +193,8 @@ class PresentationList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(PresentationList, self).get_context_data(**kwargs)
-        print context['awards']
-        a = context['awards'][0].awardwinner_set.order_by('final_score')
-        print a
+        for i,award_obj in enumerate(context['awards']):
+            context['awards'][i].awardwinner_set.order_by('final_score')
         return context
 
 class WinnersPDFView(PDFTemplateResponseMixin, ListView):
