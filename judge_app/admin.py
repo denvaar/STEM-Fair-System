@@ -73,12 +73,16 @@ class AwardResource(resources.ModelResource):
         attribute='number_of_judges',
         default=3,
         widget=IntegerWidget())
-     
+    presentation_order = fields.Field(column_name="Presentation Order",
+        attribute='presentation_order',
+        widget=IntegerWidget())
+
     class Meta:
         model = Award
         skip_unchanged = False
         import_id_fields = ('code',)
-        fields = ('code','category','number_of_winners', 'number_of_judges',)
+        fields = ('code','presentation_order',
+            'category','number_of_winners', 'number_of_judges',)
 
 
 class ProjectInline(admin.TabularInline):

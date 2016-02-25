@@ -21,6 +21,7 @@ class Student(models.Model):
 class Award(models.Model):
     slug = AutoSlugField(populate_from='code', unique=True)
     code = models.CharField(primary_key=True, max_length=200)
+    presentation_order = models.PositiveIntegerField(default=33)
     title = models.CharField(max_length=200)
     category = models.CharField(max_length=200)
     grade_range = models.CharField(max_length=10,
@@ -59,8 +60,8 @@ class JudgingResult(models.Model):
     score = models.IntegerField(help_text="Score")
 
     def __unicode__(self):
-        return "Project: {2} Score: {0} Award: {1}".format(\
-            self.score, self.award, self.project)
+        return "Project: {2} Score: {0} Award: {1} Judge: {3}".format(\
+            self.score, self.award, self.project, self.judge_id)
 """
 class Judge(models.Model):
     judge_id = models.CharField(max_length=255, primary_key=True)

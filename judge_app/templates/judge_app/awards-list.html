@@ -23,7 +23,12 @@
       <td>{{ award.0.title }}</td>
       <td>
           {% if not award.3 %}
-            <span>{{ award.2 }}/{{ award.1 }}</span>
+            {% if award.2 == award.1 %}
+              <span class="red-txt">{{ award.2 }}/{{ award.1 }}</span>
+              <img class="status-img" src="{% static 'x.png' %}"/>
+            {% else %}
+              <span>{{ award.2 }}/{{ award.1 }}</span>
+            {% endif %}
           {% else %}
             <span class="green-txt">{{ award.2 }}/{{ award.1 }}</span>
             <img class="status-img" src="{% static 'Tick.png' %}"/>

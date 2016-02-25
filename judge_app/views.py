@@ -43,13 +43,52 @@ class ScoreSubmissionView(CreateView):
         # Called when the valid form data has been POSTed.
         fv = super(ScoreSubmissionView, self).form_valid(form)
         award_id = form.data['award']
-        self.get_award_results(award_id)
-        messages.success(self.request,
-            "Thank you! Score recorded successfully.")
+        award = Award.objects.get(code=award_id)
+        total_judges = len(award.projects.all()) * award.number_of_judges
+        submissions = JudgingResult.objects.filter(award=award).count()
+        if submissions == total_judges:
+            if self.check_unique_ids(award_id) and \
+            self.check_projects(award, total_judges):
+                self.get_award_results(award_id)
+                messages.success(self.request,
+                    "Thank you! Score recorded successfully. Award complete!")
+        else:
+            messages.success(self.request,
+                "Thank you! Score recorded successfully.")
         return fv
 
     def form_invalid(self, form):
         return super(ScoreSubmissionView, self).form_invalid(form)
+
+    def check_projects(self, award, total_scores):
+        results = JudgingResult.objects.filter(award=award)
+        try:
+            if len(results.distinct('project', 'judge_id')) == \
+                total_scores:
+                return True
+        except NotImplementedError:
+            if len(results.values('project', 'judge_id').distinct()) == \
+                total_scores:
+                return True
+        messages.error(self.request,
+            "Projects not judged evenly. Check the admin setup.")
+        return False
+            
+
+    def check_unique_ids(self, award_id):
+        try:
+            if len(JudgingResult.objects.distinct('judge_id'))\
+                != Award.objects.get(code=award_id).number_of_judges:
+                messages.error(self.request,
+                    "Incorrect number of unique judges. Check the admin setup.")
+                return False
+        except NotImplementedError:
+            if len(JudgingResult.objects.values('judge_id').distinct())\
+                != Award.objects.get(code=award_id).number_of_judges:
+                messages.error(self.request,
+                    "Incorrect number of unique judges. Check the admin setup.")
+                return False
+        return True
 
     def get_award_results(self, award_id):
         award = Award.objects.get(code=award_id)
@@ -59,7 +98,7 @@ class ScoreSubmissionView(CreateView):
             projects__isnull=False).count() * award.number_of_judges
         
         results = JudgingResult.objects.filter(award=award_id)
-        
+       
         if results.count() < total:
             # Not time to compute winners yet.
             return
@@ -165,7 +204,10 @@ class AwardsList(ListView):
             totals.append(total)
             counts.append(count)
             if total == count and count is not 0:
-                status = True
+                if AwardWinner.objects.filter(award=award):
+                    status = True
+                else:
+                    status = False
                 #self.get_award_winner(JudgingResult.objects.filter(award=award))
             else:
                 status = False
@@ -180,7 +222,7 @@ class PresentationList(ListView):
     paginate_by = 1
     
     def get_queryset(self):
-        queryset = Award.objects.exclude(awardwinner=None)
+        queryset = Award.objects.exclude(awardwinner=None).order_by('presentation_order')
         return queryset
 
     def get_context_data(self, **kwargs):

@@ -9,7 +9,7 @@
     {% for winner in award.awardwinner_set.all|sort_by:'final_score' %}
       <div class="presentation-award">
         <div class="show-btn" onclick="toggle_visibility('{{ winner.project }}', '{{winner.id}}');">
-          <i id="{{ winner.id }}" class="fa fa-eye"></i>
+          <i id="{{ winner.id }}" class="fa fa-eye" style="font-size:30px;"></i>
         </div>
         <img src="{% static 'prize.png' %}"/>
         <hr>

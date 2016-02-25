@@ -45,6 +45,10 @@ padding-right: 5%;
     font-weight: bold;
     color:green;
 }
+.red-txt {
+    font-weight: bold;
+    color:#c0392b;
+}
 .status-img {
     width: 15px;
     height: auto;
@@ -328,15 +332,15 @@ form {
 #messages {
     position: absolute;
     z-index: 101;
-    top: 0;
+    top: 40px;
     left: 0;
     right: 0;
     text-align: center;
     line-height: 2.5;
     overflow: hidden; 
-    -webkit-box-shadow: 0 0 5px black;
+    /*-webkit-box-shadow: 0 0 5px black;
     -moz-box-shadow:    0 0 5px black;
-    box-shadow:         0 0 5px black;
+    box-shadow:         0 0 5px black;*/
 }
 .success {
     background-color: #27ae60;
@@ -346,7 +350,7 @@ form {
     color: #ecf0f1;
     background-color: #c0392b;
 }
-
+/*
 .cssanimations.csstransforms #messages {
     -webkit-transform: translateY(-50px);
     -webkit-animation: slideDown 2.5s 1.0s 1 ease forwards;
@@ -362,7 +366,7 @@ form {
     0%, 100% { -moz-transform: translateY(-50px); }
     10%, 90% { -moz-transform: translateY(0px); }
 }
-
+*/
 /*MEDIA QUERIES*/
 
 @media screen and (max-width: 600px) {
