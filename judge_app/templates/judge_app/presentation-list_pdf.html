@@ -3,16 +3,14 @@
   {% for award in awards %}
   <h1 style="text-align:center;">{{ award.title }}</h1>
   <div class="presentation-container">
-    {% for winner in award.awardwinner_set.all %}
+    {% for winner in award.awardwinner_set.all|sort_by:'final_score' %}
       <div class="presentation-award">
         <div class="show-btn" onclick="toggle_visibility('{{ winner.project }}', '{{winner.id}}');">
         </div>
         <img src="{% static 'prize.PNG' %}"/>
         <hr>
         
-        {% if winner in ties %}
-          <h2 style="margin-bottom: 2px;">Winner (Tie)</h2>
-        {% elif winner.award.category != 'Specialty Award' %}
+        {% if winner.award.category != 'Specialty Award' %}
           <h2 style="margin-bottom: 2px;"><span class="ord">{{ forloop.counter }}</span> Place</h2>
         {% else %}
           <h2 style="margin-bottom: 2px;">Winner</h2>
