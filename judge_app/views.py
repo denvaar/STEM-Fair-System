@@ -237,7 +237,7 @@ class WinnersPDFView(PDFTemplateResponseMixin, ListView):
     pdf_filename = 'results.pdf'
     
     def get_queryset(self):
-        queryset = Award.objects.exclude(awardwinner=None)
+        queryset = Award.objects.exclude(awardwinner=None).order_by('presentation_order')
         return queryset
 
     def get_context_data(self, **kwargs):
