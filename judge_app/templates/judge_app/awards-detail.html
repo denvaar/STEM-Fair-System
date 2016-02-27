@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block body_block %}
 {% load staticfiles %}
+<p style="text-align: center;margin-bottom:-20px;"><img src="{% static 'logo.png' %}"/></p>
 <h1 style="text-align:center;">{{ award.title }}</h1>
 {% for winner in winners %}
   <span class="plain-text award detail">

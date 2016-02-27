@@ -3,9 +3,11 @@
 {% load staticfiles %}
 {% load filters %}
 <div class="award">
+  <p style="text-align: center;margin-bottom:-50px;"><img src="{% static 'logo.png' %}"/></p>
   {% for award in awards %}
   <h1 style="text-align:center; font-size: 60px;">{{ award.title }}</h1>
   <div class="presentation-container">
+
     {% for winner in award.awardwinner_set.all|sort_by:'final_score' %}
       <div class="presentation-award">
         <div class="show-btn" onclick="toggle_visibility('{{ winner.project }}', '{{winner.id}}');">
@@ -18,7 +20,6 @@
         {% else %}
           <h2 style="margin-bottom: 2px;">Winner</h2>
         {% endif %}
-        <span>SCORE: {{ winner.final_score }}</span>
         <table class="hidden" id="{{ winner.project }}">
         <tr>
           <th>Winners</th>

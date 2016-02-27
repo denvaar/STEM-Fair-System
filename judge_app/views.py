@@ -61,6 +61,8 @@ class ScoreSubmissionView(CreateView):
         return super(ScoreSubmissionView, self).form_invalid(form)
 
     def check_projects(self, award, total_scores):
+        # Makes sure that a judge does not score
+        # the same project twice.
         results = JudgingResult.objects.filter(award=award)
         try:
             if len(results.distinct('project', 'judge_id')) == \
@@ -76,14 +78,16 @@ class ScoreSubmissionView(CreateView):
             
 
     def check_unique_ids(self, award_id):
+        # Checks that the integrety of the judge id's
+        # for a given award category.
         try:
-            if len(JudgingResult.objects.distinct('judge_id'))\
+            if len(JudgingResult.objects.filter(award=award_id).distinct('judge_id'))\
                 != Award.objects.get(code=award_id).number_of_judges:
                 messages.error(self.request,
                     "Incorrect number of unique judges. Check the admin setup.")
                 return False
         except NotImplementedError:
-            if len(JudgingResult.objects.values('judge_id').distinct())\
+            if len(JudgingResult.objects.filter(award=award_id).values('judge_id').distinct())\
                 != Award.objects.get(code=award_id).number_of_judges:
                 messages.error(self.request,
                     "Incorrect number of unique judges. Check the admin setup.")
